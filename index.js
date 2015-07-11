@@ -1,6 +1,8 @@
-var scanner = require('./lib/fileType');
 var handler = require('./lib/fileHandler');
-var file = require('file');
+var metaDataCollector = require('./lib/metaDataCollector');
+var events = require('./lib/constants').events;
+
+var Walker = require('./lib/FilesTreeWalker');
 
 
 // TODO read source dir from command line option or some config file
@@ -11,13 +13,7 @@ function resultCallback(result) {
   console.info('>> result is: %s', JSON.stringify(result, null, '  '));
 }
 
-file.walk(sourceDir, function(err, dirname, dirs, files) {
-  if (err) {
-    throw err;
-  }
-  console.log('>> entering %s', dirname);
-  // TODO if all files are the same type and can handled by same child_process, use one single child process
-  files.forEach(function(file) {
-    handler.handleFile(file, {}, resultCallback);
-  })
-});
+Walker.addListener(events.foundFile, handler.handleFile);
+Walker.addListener(events.fileMeta, metaDataCollector.onMetaData);
+
+Walker.scan(sourceDir, 'dest');
