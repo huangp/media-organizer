@@ -1,0 +1,25 @@
+{
+  "name": "media-organizer",
+  "version": "0.0.0",
+  "description": "Organize photos and videos based on their meta data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "video",
+    "photo",
+    "organize"
+  ],
+  "author": "Patrick Huang",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "~2.10.3",
+    "moment-range": "~2.0.2",
+    "file": "~0.2.2",
+    "ext-name": "~3.0.0",
+    "stream-splitter": "~0.3.2",
+    "sha1-file": "~1.0.0",
+    "events": "~1.0.2"
+  }
+}
