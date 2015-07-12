@@ -20,6 +20,7 @@
     "ext-name": "~3.0.0",
     "stream-splitter": "~0.3.2",
     "sha1-file": "~1.0.0",
-    "object-assign": "~3.0.0"
+    "object-assign": "~3.0.0",
+    "exif-parser": "~0.1.9"
   }
 }
