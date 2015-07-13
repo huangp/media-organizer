@@ -1,19 +1,29 @@
+var os = require('os');
+var path = require('path');
+var fs =require('fs');
 var handler = require('./lib/fileHandler');
 var metaDataCollector = require('./lib/metaDataCollector');
-var events = require('./lib/constants').events;
+var constants = require('./lib/constants');
+var events = constants.events;
+var config = constants.config;
 
 var Walker = require('./lib/FilesTreeWalker');
 
 
 // TODO read source dir from command line option or some config file
 var sourceDir = process.argv[2] || __dirname;
-console.log('>> scanning %s', sourceDir);
+var destDir = process.argv[3] || path.join(os.tmpDir(), 'media-organizer');
 
-function resultCallback(result) {
-  console.info('>> result is: %s', JSON.stringify(result, null, '  '));
+config.sourceBase = sourceDir;
+config.destBase = destDir;
+
+console.log('>> scanning %s', config.sourceBase);
+
+if (!fs.existsSync(destDir)) {
+  fs.mkdirSync(destDir);
 }
 
 Walker.addListener(events.foundFile, handler.handleFile);
 Walker.addListener(events.fileMeta, metaDataCollector.onMetaData);
 
-Walker.scan(sourceDir, 'dest');
+Walker.scan(config.sourceBase);

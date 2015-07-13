@@ -4,7 +4,7 @@
   "description": "Organize photos and videos based on their meta data",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/copyTestMedia.js && node index.js /tmp/test_media"
   },
   "keywords": [
     "video",
@@ -21,6 +21,9 @@
     "stream-splitter": "~0.3.2",
     "sha1-file": "~1.0.0",
     "object-assign": "~3.0.0",
-    "exif-parser": "~0.1.9"
+    "exif-parser": "~0.1.9",
+    "moment-timezone": "~0.4.0",
+    "fs-extra": "~0.22.1",
+    "shasum": "~1.0.1"
   }
 }
