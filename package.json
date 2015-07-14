@@ -24,6 +24,7 @@
     "exif-parser": "~0.1.9",
     "moment-timezone": "~0.4.0",
     "fs-extra": "~0.22.1",
-    "shasum": "~1.0.1"
+    "shasum": "~1.0.1",
+    "graceful-logger": "~0.4.3"
   }
 }

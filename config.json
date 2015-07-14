@@ -1,0 +1,7 @@
+{
+  "logLevel": "info",
+  "reasonableAfterDate": "2005-08-01",
+  "utcOffset": "10:00",
+  "timezone": "Australia/Brisbane",
+  "outputFileDateFmt": "YYYY-MM-DD_HH-mm-ss"
+}

@@ -6,6 +6,7 @@ var metaDataCollector = require('./lib/metaDataCollector');
 var constants = require('./lib/constants');
 var events = constants.events;
 var config = constants.config;
+var log = require('./lib/logger');
 
 var Walker = require('./lib/FilesTreeWalker');
 
@@ -17,7 +18,7 @@ var destDir = process.argv[3] || path.join(os.tmpDir(), 'media-organizer');
 config.sourceBase = sourceDir;
 config.destBase = destDir;
 
-console.log('>> scanning %s', config.sourceBase);
+log.d('>> scanning:', config.sourceBase);
 
 if (!fs.existsSync(destDir)) {
   fs.mkdirSync(destDir);
