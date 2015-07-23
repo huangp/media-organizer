@@ -10,19 +10,16 @@ var log = require('./lib/logger');
 
 var Walker = require('./lib/FilesTreeWalker');
 
-
 // TODO read source dir from command line option or some config file
 var sourceDir = process.argv[2] || __dirname;
-var destDir = process.argv[3] || path.join(os.tmpDir(), 'media-organizer');
+var destDir = (process.argv.length > 3 && process.argv[3]) || '';
 
 config.sourceBase = sourceDir;
 config.destBase = destDir;
 
-log.d('>> scanning:', config.sourceBase);
+log.i(config);
 
-if (!fs.existsSync(destDir)) {
-  fs.mkdirSync(destDir);
-}
+log.d('>> scanning:', config.sourceBase);
 
 Walker.addListener(events.foundFile, handler.handleFile);
 Walker.addListener(events.fileMeta, metaDataCollector.onMetaData);

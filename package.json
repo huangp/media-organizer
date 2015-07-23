@@ -4,7 +4,9 @@
   "description": "Organize photos and videos based on their meta data",
   "main": "index.js",
   "scripts": {
-    "test": "node test/copyTestMedia.js && node index.js /tmp/test_media"
+    "test-clean": "node test/copyTestMedia.js",
+    "test-move": "node index.js /tmp/test_media /tmp/media-organizer",
+    "test-no-move": "node index.js /tmp/test_media"
   },
   "keywords": [
     "video",

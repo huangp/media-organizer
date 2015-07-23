@@ -8,20 +8,24 @@ var fs = require('fs-extra');
 var original = path.join(__dirname, '../test_media');
 var copyTo = path.join(os.tmpDir(), 'test_media');
 
-// copy original test medias to tmp folder
-fs.copy(original, copyTo, {clobber: true}, function(err) {
+fs.emptyDir(copyTo, function(err) {
   checkError(err);
-  console.log('%s copied to %s', original, copyTo);
-  find(copyTo);
-
-  // empty default moved to destination
-  var testMovedDest = path.join(os.tmpDir(), 'media-organizer');
-  fs.emptyDir(testMovedDest, function(err) {
+  // copy original test medias to tmp folder
+  fs.copy(original, copyTo, {clobber: true}, function(err) {
     checkError(err);
-    console.log('%s emptied', testMovedDest);
-    find(testMovedDest);
+    console.log('%s copied to %s', original, copyTo);
+    find(copyTo);
+
+    // empty default moved to destination
+    var testMovedDest = path.join(os.tmpDir(), 'media-organizer');
+    fs.emptyDir(testMovedDest, function(err) {
+      checkError(err);
+      console.log('%s emptied', testMovedDest);
+      find(testMovedDest);
+    });
   });
 });
+
 
 function find(dest) {
   console.log();
