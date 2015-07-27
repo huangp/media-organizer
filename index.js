@@ -1,12 +1,10 @@
-var os = require('os');
-var path = require('path');
-var fs =require('fs');
 var handler = require('./lib/fileHandler');
 var metaDataCollector = require('./lib/metaDataCollector');
 var constants = require('./lib/constants');
 var events = constants.events;
 var config = constants.config;
 var log = require('./lib/logger');
+var store = require('./lib/MetaStore');
 
 var Walker = require('./lib/FilesTreeWalker');
 
@@ -18,6 +16,8 @@ config.sourceBase = sourceDir;
 config.destBase = destDir;
 
 log.i(config);
+
+store.ensureIndex();
 
 log.d('>> scanning:', config.sourceBase);
 

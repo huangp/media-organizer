@@ -29,6 +29,7 @@
     "shasum": "~1.0.1",
     "graceful-logger": "~0.4.3",
     "thumbnail": "~0.1.9",
-    "es6-promises": "~1.0.10"
+    "es6-promises": "~1.0.10",
+    "elasticsearch": "~5.0.0"
   }
 }

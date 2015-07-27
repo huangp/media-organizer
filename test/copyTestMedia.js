@@ -40,3 +40,18 @@ function find(dest) {
   });
 }
 
+var elasticsearch = require('elasticsearch');
+var config = require('../lib/constants').config;
+
+var client = new elasticsearch.Client({
+  host: 'localhost:9200',
+  //sniffOnStart: true,
+  //sniffInterval: 60000,
+  keepAlive: false, //
+  apiVersion: '1.6'
+});
+
+client.indices.delete({index: config.indexName, ignore: 404}, function(err, response) {
+  checkError(err);
+  console.log('index deleted:%s', response.body);
+});
