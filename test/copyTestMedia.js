@@ -1,3 +1,4 @@
+require("babel-register");
 var path = require('path');
 var os = require('os');
 var child = require('child_process').spawn;

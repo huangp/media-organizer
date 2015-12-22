@@ -1,3 +1,5 @@
+// added babel require hook to use es6 https://babeljs.io/docs/setup/#babel_register
+require("babel-register");
 var handler = require('./lib/fileHandler');
 var metaDataCollector = require('./lib/metaDataCollector');
 var constants = require('./lib/constants');
