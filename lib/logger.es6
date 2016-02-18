@@ -13,7 +13,7 @@ function toNumber(level) {
 
 exports.d = function() {
   if (toNumber(logLevel) <= levelEnum.debug) {
-    var args = Array.prototype.slice.call(arguments);
+    var args = [...arguments];
 
     log.debug(args);
   }
@@ -21,7 +21,7 @@ exports.d = function() {
 
 exports.i = function() {
   if (toNumber(logLevel) <= levelEnum.info) {
-    var args = Array.prototype.slice.call(arguments);
+    var args = [...arguments];
 
     log.info(args);
   }
@@ -29,7 +29,7 @@ exports.i = function() {
 
 exports.w = function() {
   if (toNumber(logLevel) <= levelEnum.warn) {
-    var args = Array.prototype.slice.call(arguments);
+    var args = [...arguments];
 
     log.warn(args);
   }
@@ -37,7 +37,7 @@ exports.w = function() {
 
 exports.e = function() {
   if (toNumber(logLevel) <= levelEnum.error) {
-    var args = Array.prototype.slice.call(arguments);
+    var args = [...arguments];
 
     log.error(args);
   }

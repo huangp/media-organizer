@@ -1,6 +1,7 @@
 var elasticsearch = require('elasticsearch');
 var log = require('./logger');
 var config = require('./constants').config;
+var util = require('./util');
 
 var client = new elasticsearch.Client({
   host: 'localhost:9200',
@@ -48,16 +49,29 @@ function bulkInsert(data) {
   });
 }
 
+const indexDoc = (file, meta) => {
+  const {fileOrigin, sha1sum, size, createdDate, exif} = meta
+  const fileType = util.isPhoto(file) ? 'photo' : 'video'
+  return {
+    file,
+    fileOrigin,
+    fileType,
+    sha1sum,
+    size,
+    createdDate,
+    exif
+  }
+}
+
 function index(file, meta) {
-  return client.index({
-    index: config.indexName,
-    type: 'meta',
-    id: meta.id,
-    body: {
-      file: file,
-      meta: meta
-    }
-  });
+  const payload = indexDoc(file, meta)
+  log.i('===== index payload =====', JSON.stringify(payload))
+  //return client.index({
+  //  index: config.indexName,
+  //  type: 'meta',
+  //  id: meta.id,
+  //  body: payload
+  //});
 }
 
 exports.index = index;

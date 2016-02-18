@@ -22,19 +22,16 @@
     "ext-name": "~3.0.0",
     "stream-splitter": "~0.3.2",
     "sha1-file": "~1.0.0",
-    "object-assign": "~3.0.0",
     "exif-parser": "~0.1.9",
     "moment-timezone": "~0.4.0",
     "fs-extra": "~0.22.1",
     "shasum": "~1.0.1",
     "graceful-logger": "~0.4.3",
-    "thumbnail": "~0.1.9",
-    "es6-promises": "~1.0.10",
     "elasticsearch": "~5.0.0"
   },
   "devDependencies": {
-    "babel-register": "~6.3.13",
-    "babel-preset-es2015": "~6.3.13",
-    "babel-cli": "~6.3.17"
+    "babel-register": "~6.5.1",
+    "babel-preset-es2015": "~6.5.1",
+    "babel-cli": "~6.5.1"
   }
 }
