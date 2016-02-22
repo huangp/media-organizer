@@ -1,13 +1,13 @@
-var appRootDir = require('app-root-dir').get();
-var globalConfig = require(appRootDir + '/config.json');
+const appRootDir = require('app-root-dir').get();
+const globalConfig = require(appRootDir + '/config.json');
 
-exports.events = {
+export const events = {
   foundFile: 'foundFile',
   fileMeta: 'fileMeta'
-};
+}
 
 
-exports.config = {
+export const config = {
   sourceBase: '',
   destBase: '',
   // all dates should be after this date
@@ -18,4 +18,4 @@ exports.config = {
   timezone: globalConfig.timezone,
   outputFileDateFmt: globalConfig.outputFileDateFmt,
   indexName: globalConfig.indexName
-};
+}

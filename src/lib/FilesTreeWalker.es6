@@ -1,31 +1,30 @@
-var file = require('file');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var events = require('./constants').events;
+import file from 'file'
+import {EventEmitter} from 'events'
+import {events} from './constants'
+import log from './logger'
 
-var Walker = assign({}, EventEmitter.prototype, {
-  addListener: function (event, callback) {
-    this.on(event, callback);
+const Walker = Object.assign({}, EventEmitter.prototype, {
+  addListener (event, callback) {
+    this.on(event, callback)
   },
 
-  fireEvent: function(event, payload) {
-    this.emit(event, payload);
+  fireEvent (event, payload) {
+    this.emit(event, payload)
   },
 
-  scan: function (sourceDir) {
-    var walker = this;
+  scan (sourceDir) {
+    const walker = this
 
-    file.walk(sourceDir, function (err, dirname, dirs, files) {
+    file.walk(sourceDir, (err, dirname, dirs, files) => {
       if (err) {
-        throw err;
+        log.e('somthing wrong walking the file tree', e)
+        throw err
       }
       //console.log('>> entering %s', dirname);
       // TODO if all files are the same type and can handled by same child_process, use one single child process
-      files.forEach(function (file) {
-        walker.fireEvent(events.foundFile, {file: file});
-      })
-    });
+      files.forEach((file) => walker.fireEvent(events.foundFile, {file: file}))
+    })
   }
-});
+})
 
-module.exports = Walker;
+export default Walker

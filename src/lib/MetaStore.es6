@@ -1,9 +1,9 @@
-var elasticsearch = require('elasticsearch');
-var log = require('./logger');
-var config = require('./constants').config;
-var util = require('./util');
+import elasticsearch from 'elasticsearch'
+import log from './logger'
+import {config} from './constants'
+import {isPhoto} from './util'
 
-var client = new elasticsearch.Client({
+const client = new elasticsearch.Client({
   host: 'localhost:9200',
   //sniffOnStart: true,
   //sniffInterval: 60000,
@@ -29,8 +29,6 @@ function createIndexIfNotExist() {
   });
 }
 
-exports.ensureIndex = createIndexIfNotExist;
-
 function bulkInsert(data) {
   client.bulk({
     body: [
@@ -51,7 +49,7 @@ function bulkInsert(data) {
 
 const indexDoc = (file, meta) => {
   const {fileOrigin, sha1sum, size, createdDate, exif} = meta
-  const fileType = util.isPhoto(file) ? 'photo' : 'video'
+  const fileType = isPhoto(file) ? 'photo' : 'video'
   return {
     file,
     fileOrigin,
@@ -63,7 +61,7 @@ const indexDoc = (file, meta) => {
   }
 }
 
-function index(file, meta) {
+const index = (file, meta) => {
   const payload = indexDoc(file, meta)
   log.i('===== index payload =====', JSON.stringify(payload))
   //return client.index({
@@ -74,4 +72,7 @@ function index(file, meta) {
   //});
 }
 
-exports.index = index;
+export default {
+  ensureIndex: createIndexIfNotExist,
+  index
+}

@@ -1,11 +1,12 @@
-var path = require('path');
-var extName = require('ext-name');
-var log = require('./logger');
+import path from 'path'
+import extName from 'ext-name'
+import log from './logger'
+import {config} from './constants'
 
-function ext(file) {
+export function ext(file) {
   // extName can not resolve some of the files. e.g. PNG and MOV
-  var extObj = extName(file.toLowerCase());
-  var ext;
+  const extObj = extName(file.toLowerCase());
+  let ext;
   if (extObj) {
     ext = extObj.ext;
   } else {
@@ -15,50 +16,52 @@ function ext(file) {
   return ext.toLowerCase();
 }
 
-exports.ext = ext;
+const videoExts = ['mp4', 'avi', 'mkv', 'mov']
+const photoExts = ['jpg', 'jpeg']
 
-var videoExts = ['mp4', 'avi', 'mkv', 'mov'];
-var photoExts = ['jpg', 'jpeg'];
+export function isVideo (file) {
+  return videoExts.indexOf(ext(file)) >= 0
+}
 
-exports.isVideo = function(file) {
-  return videoExts.indexOf(ext(file)) >= 0;
-};
+export function isPhoto (file) {
+  return photoExts.indexOf(ext(file)) >= 0
+}
 
-exports.isPhoto = function(file) {
-  return photoExts.indexOf(ext(file)) >= 0;
-};
+export function fullPath (srcDir, fileName) {
+  return path.join(srcDir, fileName)
+}
 
-exports.fullPath = function (srcDir, fileName) {
-  return path.join(srcDir, fileName);
-};
-
-exports.earliestDate = function () {
-  var dates = [...arguments];
+export function earliestDate () {
+  var dates = [...arguments]
   if (dates && dates.length > 0) {
     return dates
         .reduce((previous, current) => {
-          return previous && previous.isBefore(current) ? previous : current;
+          return previous && previous.isBefore(current) ? previous : current
         })
   }
-  return null;
-};
+  return null
+}
 
 
-exports.onErrorCallback = function(err) {
+export function onErrorCallback (err) {
   if (err) {
-    log.e('Error:', err);
-    throw err;
+    log.e('Error:', err)
+    throw err
   }
-};
+}
 
-exports.checkError = function(err) {
+export function checkError (err) {
   if (err) {
-    log.e('Error:', err);
-    throw err;
+    log.e('Error:', err)
+    throw err
   }
-};
+}
 
-exports.promiseCatch = function(err) {
-  log.e('something wrong:' + err);
-  console.error(err.stack);
-};
+export function promiseCatch (err) {
+  log.e('something wrong:' + err)
+  console.error(err.stack)
+}
+
+export function dateLooksReasonable(momentDate) {
+  return momentDate && momentDate.isValid() && momentDate.isAfter(config.reasonableAfterDate);
+}

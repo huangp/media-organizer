@@ -1,46 +1,52 @@
-var Logger = require('graceful-logger').Logger;
-var log = new Logger({debug: 1});
+import {Logger} from 'graceful-logger'
+const log = new Logger({debug: 1})
 
-var levelEnum = {
+const levelEnum = {
   'debug': 1, 'info': 2, 'warn': 3, 'error': 4
-};
-var appRootDir = require('app-root-dir').get();
-var logLevel = require(appRootDir + '/config.json').logLevel || levelEnum.debug;
+}
+const appRootDir = require('app-root-dir').get();
+const logLevel = require(appRootDir + '/config.json').logLevel || levelEnum.debug
 
-function toNumber(level) {
-  return levelEnum[level] || 0;
+const toNumber = (level) => {
+  return levelEnum[level] || 0
 }
 
-exports.d = function() {
+export function d () {
   if (toNumber(logLevel) <= levelEnum.debug) {
-    var args = [...arguments];
+    const args = [...arguments]
 
-    log.debug(args);
+    log.debug(args)
   }
-};
+}
 
-exports.i = function() {
+export function i () {
   if (toNumber(logLevel) <= levelEnum.info) {
-    var args = [...arguments];
+    const args = [...arguments]
 
-    log.info(args);
+    log.info(args)
   }
-};
+}
 
-exports.w = function() {
+export function w () {
   if (toNumber(logLevel) <= levelEnum.warn) {
-    var args = [...arguments];
+    const args = [...arguments]
 
-    log.warn(args);
+    log.warn(args)
   }
-};
+}
 
-exports.e = function() {
+export function e () {
   if (toNumber(logLevel) <= levelEnum.error) {
-    var args = [...arguments];
+    const args = [...arguments]
 
-    log.error(args);
+    log.error(args)
   }
-};
+}
 
+export default {
+  d,
+  i,
+  w,
+  e
+}
 
