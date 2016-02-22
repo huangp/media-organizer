@@ -4,4 +4,5 @@ test_media/
 test_media.tar.gz
 *-compiled.js
 *-compiled.js.map
+dist/
 

@@ -1,4 +1,3 @@
-require("babel-register");
 var path = require('path');
 var os = require('os');
 var child = require('child_process').spawn;
@@ -6,7 +5,7 @@ var checkError = require('../lib/util').checkError;
 
 var fs = require('fs-extra');
 
-var original = path.join(__dirname, '../test_media');
+var original = path.join(__dirname, '../../test_media');
 var copyTo = path.join(os.tmpDir(), 'test_media');
 
 fs.emptyDir(copyTo, function(err) {

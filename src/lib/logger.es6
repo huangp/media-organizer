@@ -4,8 +4,8 @@ var log = new Logger({debug: 1});
 var levelEnum = {
   'debug': 1, 'info': 2, 'warn': 3, 'error': 4
 };
-
-var logLevel = require('../config.json').logLevel || levelEnum.debug;
+var appRootDir = require('app-root-dir').get();
+var logLevel = require(appRootDir + '/config.json').logLevel || levelEnum.debug;
 
 function toNumber(level) {
   return levelEnum[level] || 0;

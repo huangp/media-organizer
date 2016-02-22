@@ -4,7 +4,7 @@
   "description": "Organize photos and videos based on their meta data",
   "main": "index.js",
   "scripts": {
-    "test-clean": "node test/copyTestMedia.js",
+    "test-clean": "node dist/test/copyTestMedia.js",
     "test-move": "node index.js /tmp/test_media /tmp/media-organizer",
     "test-no-move": "node index.js /tmp/test_media"
   },
@@ -27,7 +27,9 @@
     "fs-extra": "~0.22.1",
     "shasum": "~1.0.1",
     "graceful-logger": "~0.4.3",
-    "elasticsearch": "~5.0.0"
+    "elasticsearch": "~5.0.0",
+    "app-root-dir": "~1.0.2",
+    "babel-polyfill": "~6.5.0"
   },
   "devDependencies": {
     "babel-register": "~6.5.1",

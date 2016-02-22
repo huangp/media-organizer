@@ -1,5 +1,5 @@
-// added babel require hook to use es6 https://babeljs.io/docs/setup/#babel_register
-require("babel-register");
+// added babel-polyfill require hook to use es6 polyfill http://babeljs.io/docs/usage/polyfill/
+import "babel-polyfill";
 var handler = require('./lib/fileHandler');
 var metaDataCollector = require('./lib/metaDataCollector');
 var constants = require('./lib/constants');
@@ -17,13 +17,16 @@ var destDir = (process.argv.length > 3 && process.argv[3]) || '';
 config.sourceBase = sourceDir;
 config.destBase = destDir;
 
-log.i(config);
+export function main () {
+  log.i(config);
 
-store.ensureIndex();
+  store.ensureIndex();
 
-log.d('>> scanning:', config.sourceBase);
+  log.d('>> scanning:', config.sourceBase);
 
-Walker.addListener(events.foundFile, handler.handleFile);
-Walker.addListener(events.fileMeta, metaDataCollector.onMetaData);
+  Walker.addListener(events.foundFile, handler.handleFile);
+  Walker.addListener(events.fileMeta, metaDataCollector.onMetaData);
 
-Walker.scan(config.sourceBase);
+  Walker.scan(config.sourceBase);
+
+}

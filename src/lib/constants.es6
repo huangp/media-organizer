@@ -1,4 +1,5 @@
-var globalConfig = require('../config.json');
+var appRootDir = require('app-root-dir').get();
+var globalConfig = require(appRootDir + '/config.json');
 
 exports.events = {
   foundFile: 'foundFile',
