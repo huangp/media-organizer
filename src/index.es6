@@ -5,7 +5,7 @@ import metaDataCollector from './lib/metaDataCollector'
 import {events, config} from './lib/constants'
 import log from './lib/logger'
 
-import store from './lib/MetaStore'
+import store from './lib/elastic/MetaStore'
 
 import Walker from './lib/FilesTreeWalker'
 
@@ -19,13 +19,14 @@ config.destBase = destDir
 export function main () {
   log.i(config);
 
-  store.ensureIndex();
+  store
+      .ensureIndex()
+      .then(indexName => {
+        log.d(`>> scanning: ${config.sourceBase} then index to ${indexName}`);
 
-  log.d('>> scanning:', config.sourceBase);
+        Walker.addListener(events.foundFile, handleFile);
+        Walker.addListener(events.fileMeta, metaDataCollector);
 
-  Walker.addListener(events.foundFile, handleFile);
-  Walker.addListener(events.fileMeta, metaDataCollector);
-
-  Walker.scan(config.sourceBase);
-
+        Walker.scan(config.sourceBase);
+      })
 }

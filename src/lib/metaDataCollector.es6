@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import {isVideo, earliestDate} from './util'
 import {config} from './constants'
 import log from './logger'
-import store from './MetaStore'
+import store from './elastic/MetaStore'
 // this is needed to have moment-timezone support;
 require('moment-timezone');
 

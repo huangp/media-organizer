@@ -28,7 +28,8 @@
     "graceful-logger": "~0.4.3",
     "elasticsearch": "~5.0.0",
     "app-root-dir": "~1.0.2",
-    "babel-polyfill": "~6.5.0"
+    "babel-polyfill": "~6.5.0",
+    "superagent": "~1.7.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "~6.5.0",
