@@ -2,7 +2,7 @@ import elasticsearch from 'elasticsearch'
 import request from 'superagent'
 import log from './../logger'
 import {config} from '../constants'
-import {isPhoto, checkError} from '../util'
+import {isPhoto, checkError, fileName} from '../util'
 
 import settings from './indexSettings'
 
@@ -103,8 +103,11 @@ const index = (file, meta) => {
     request.post(url)
       .send(payload)
       .end((err, res) => {
-        checkError(err)
-        return res.body
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res.body)
+        }
       })
   })
 }

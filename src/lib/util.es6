@@ -42,6 +42,10 @@ export function earliestDate () {
   return null
 }
 
+export function fileName (file) {
+  return path.basename(file)
+}
+
 
 export function onErrorCallback (err) {
   if (err) {

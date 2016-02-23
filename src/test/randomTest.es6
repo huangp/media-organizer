@@ -1,9 +1,9 @@
+import "babel-polyfill";
+
 var moment = require('moment');
 
 var Logger = require('graceful-logger').Logger;
 var logger = new Logger();
-
-var es = require('../lib/MetaStore');
 
 //console.log(logger);
 
@@ -19,4 +19,6 @@ test('1', 2, new Date());
 
 console.log(moment(1390622083660).format('YYYY-MM-DD HH:mm:ss Z'));
 
-es.ensureIndex('media');
+import settings from '../lib/elastic/indexSettings'
+
+console.log(settings)
