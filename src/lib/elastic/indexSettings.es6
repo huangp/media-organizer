@@ -80,6 +80,16 @@ const exifProperties = {
       "GPSDateStamp": {
         "type": "date",
         "format": exifDateFormat
+      },
+      "SerialNumber": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "LensMake": {
+        "type": "string"
+      },
+      "LensModel": {
+        "type": "string"
       }
     }
   }
