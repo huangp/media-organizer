@@ -42,18 +42,15 @@ function find(dest) {
   });
 }
 
-var elasticsearch = require('elasticsearch');
+//var elasticsearch = require('elasticsearch');
+import request from 'superagent'
 var config = require('../lib/constants').config;
 
-var client = new elasticsearch.Client({
-  host: 'localhost:9200',
-  //sniffOnStart: true,
-  //sniffInterval: 60000,
-  keepAlive: false, //
-  apiVersion: '1.6'
-});
-
-client.indices.delete({index: config.indexName, ignore: 404}, function(err, response) {
-  checkError(err);
-  console.log('index deleted:%s', response.body);
-});
+const url = `http://localhost:9200/${config.indexName}`
+request.del(url).end((err, res) => {
+  if (err) {
+    console.error('error deleting index:' + url)
+  } else {
+    console.info('index deleted', JSON.stringify(res.body))
+  }
+})

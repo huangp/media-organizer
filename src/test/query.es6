@@ -10,8 +10,8 @@ const searchByDate = {
 
 const searchByDateFuzzy = {
   "_source": { // control what part of the source is returned using include and exclude
-    "include": [ "file", "fileOrigin", "exif.*" ],
-    "exclude": [ "*.description" ]
+    "include": ["file", "fileOrigin", "exif.*"],
+    "exclude": ["*.description"]
   },
   "query": {
     "fuzzy": {
@@ -81,7 +81,13 @@ const sampleDoc = {
   "exact_value": "Quick Foxes!" // The exact_value inverted index will contain the exact term: [Quick Foxes!].
 }
 
-
+// https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html
+// POST my_index/my_type/1/_update
+const updateDoc = {
+  "doc" : {
+    "tags" : ["photo"] // partial document update. It will get merged into the doc
+  }
+}
 
 
 

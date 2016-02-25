@@ -104,6 +104,8 @@ const index = (file, meta) => {
       .send(payload)
       .end((err, res) => {
         if (err) {
+          // TODO log all error to a file
+          console.error(`Error indexing ${file}`, err)
           reject(err)
         } else {
           resolve(res.body)

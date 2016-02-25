@@ -32,6 +32,10 @@ const commonProperties = {
   },
   "createdDate": {
     "type": "date"
+  },
+  "tags": {
+    "type": "string",
+    "analyzer": "my_nGram"
   }
 }
 
@@ -52,7 +56,17 @@ const exifProperties = {
         "index": "not_analyzed"
       },
       "ModifyDate": {
-        "type": "date"
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy:MM:dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "FocalLength": {
+        "type": "double"
+      },
+      "ApertureValue": {
+        "type": "double"
+      },
+      "ExposureTime": {
+        "type": "double"
       }
     }
   }
