@@ -49,7 +49,7 @@ var config = require('../lib/constants').config;
 const url = `http://localhost:9200/${config.indexName}`
 request.del(url).end((err, res) => {
   if (err) {
-    console.error('error deleting index:' + url)
+    console.error('error deleting index:' + url, err)
   } else {
     console.info('index deleted', JSON.stringify(res.body))
   }

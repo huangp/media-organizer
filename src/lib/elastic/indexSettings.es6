@@ -36,8 +36,14 @@ const commonProperties = {
   "tags": {
     "type": "string",
     "analyzer": "my_nGram"
+  },
+  "size": {
+    "type": "long"
   }
 }
+
+const exifDateFormat = "yyyy:MM:dd HH:mm:ss||yyyy:MM:dd||epoch_millis"
+const dateFormat = exifDateFormat + "||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd"
 
 const exifProperties = {
   "exif": {
@@ -57,7 +63,7 @@ const exifProperties = {
       },
       "ModifyDate": {
         "type": "date",
-        "format": "yyyy-MM-dd HH:mm:ss||yyyy:MM:dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+        "format": exifDateFormat
       },
       "FocalLength": {
         "type": "double"
@@ -67,16 +73,47 @@ const exifProperties = {
       },
       "ExposureTime": {
         "type": "double"
+      },
+      "DateTimeOriginal": {
+        "type": "date"
+      },
+      "GPSDateStamp": {
+        "type": "date",
+        "format": exifDateFormat
       }
     }
   }
 }
+
+const exifDynamicTemplate = [
+  {
+    "all_numbers": {
+      "path_match": "exif.*",
+      "match_mapping_type": "long",
+      "mapping": {
+        "type": "long"
+      }
+    }
+  },
+  {
+    "all_strings": {
+      "path_match": "exif.*",
+      "match_mapping_type": "string",
+      "mapping": {
+        "type": "string",
+        "index": "not_analyzed",
+        "ignore_above": 256
+      }
+    }
+  }
+]
 
 const photoProperties = Object.assign({}, commonProperties, exifProperties)
 const videoProperties = Object.assign({}, commonProperties)
 
 const mappings = {
   "photo": {
+    "dynamic_templates": exifDynamicTemplate,
     "properties": photoProperties
   },
   "video": {

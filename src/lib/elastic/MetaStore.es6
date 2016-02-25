@@ -1,10 +1,11 @@
-import elasticsearch from 'elasticsearch'
 import request from 'superagent'
 import log from './../logger'
 import {config} from '../constants'
 import {isPhoto, checkError, fileName} from '../util'
 
 import settings from './indexSettings'
+
+import {nextId} from '../redis/uniqueId'
 
 const esBase = 'http://localhost:9200'
 
@@ -34,13 +35,13 @@ function createIndexIfNotExist() {
   return new Promise((resolve, reject) => {
     request
         .head(url)
-        .set('Accept', 'application/json')
         .end((err, res) => {
           // TODO use folktale.js for functional refactor
           if (err && err.status === 404) {
             resolve({})
           } else if (err) {
             log.e('error talking to ' + url, err)
+            reject(err)
           } else {
             resolve({index: indexName})
           }
@@ -57,32 +58,15 @@ function createIndexIfNotExist() {
 
 }
 
-function bulkInsert(data) {
-  client.bulk({
-    body: [
-      // action description
-      { index:  { _index: 'myindex', _type: 'mytype', _id: 1 } },
-      // the document to index
-      { title: 'foo' },
-      // action description
-      { update: { _index: 'myindex', _type: 'mytype', _id: 2 } },
-      // the document to update
-      { doc: { title: 'foo' } },
-      // action description
-      { delete: { _index: 'myindex', _type: 'mytype', _id: 3 } },
-      // no document needed for this delete
-    ]
-  });
-}
-
 const toFileType = (file) => {
   return isPhoto(file) ? 'photo' : 'video'
 }
 
-const toIndexDocPayload = (file, meta) => {
+const toIndexDocPayload = (id, file, meta) => {
   const {fileOrigin, sha1sum, size, createdDate, exif} = meta
   const fileType = toFileType(file)
   return {
+    id: Number.parseInt(id), // so that we can sort it
     file,
     fileOrigin,
     fileType,
@@ -94,24 +78,28 @@ const toIndexDocPayload = (file, meta) => {
 }
 
 const index = (file, meta) => {
-  const payload = toIndexDocPayload(file, meta)
-  log.i('===== index payload =====', JSON.stringify(payload))
-
   const type = toFileType(file)
-  const url = `${esBase}/${indexName}/${type}`
-  return new Promise((resolve, reject) => {
-    request.post(url)
-      .send(payload)
-      .end((err, res) => {
-        if (err) {
-          // TODO log all error to a file
-          console.error(`Error indexing ${file}`, err)
-          reject(err)
-        } else {
-          resolve(res.body)
-        }
-      })
+
+  return nextId().then(nextId => {
+    const url = `${esBase}/${indexName}/${type}/${nextId}`
+    const payload = toIndexDocPayload(nextId, file, meta)
+    log.i('===== index payload =====', JSON.stringify(payload))
+
+    return new Promise((resolve, reject) => {
+      request.put(url)
+          .send(payload)
+          .end((err, res) => {
+            if (err) {
+              // TODO log all error to a file
+              console.error(`Error indexing ${file}`, err)
+              reject(err)
+            } else {
+              resolve(res.body)
+            }
+          })
+    })
   })
+
 }
 
 export default {

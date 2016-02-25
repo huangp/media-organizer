@@ -89,7 +89,20 @@ const updateDoc = {
   }
 }
 
-
+// sort search result
+const sortResult = {
+  "sort": [
+    {"post_date": {"order": "asc"}},
+    "user",
+    {"name": "desc"},
+    {"age": "desc"},
+    "_score", // sort by score
+    "_doc" // sort by index order (only really useful in scrolling case)
+  ],
+  "query": {
+    "term": {"user": "kimchy"}
+  }
+}
 
 
 

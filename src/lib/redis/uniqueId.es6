@@ -52,7 +52,7 @@ function doInPromise() {
       } else {
         log.d('reply is:' + reply)
         // in case reply value is falsy
-        resolve({reply: reply})
+        resolve({payload: reply})
       }
     }
     log.d(`about to call redis command ${command} with args [${commandArgs}]`)
@@ -67,8 +67,9 @@ export function nextId () {
         return doInPromise('incr', nextIdKey)
       })
       .then(reply => {
-        log.i('get next id:' + reply.reply)
-        return reply
+        log.d('get next id:' + reply.payload)
+        endClient()
+        return reply.payload
       })
       .catch(err => {
         log.e('error calling redis')
@@ -79,4 +80,5 @@ export function nextId () {
 export function endClient () {
   log.w('quiting redis client')
   getClient().quit()
+  client = null
 }
