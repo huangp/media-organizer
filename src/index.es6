@@ -6,6 +6,7 @@ import {events, config} from './lib/constants'
 import log from './lib/logger'
 
 import store from './lib/elastic/MetaStore'
+import {goodToGo} from './lib/validator/requiredApps'
 
 import Walker from './lib/FilesTreeWalker'
 
@@ -16,9 +17,7 @@ const destDir = (process.argv.length > 3 && process.argv[3]) || ''
 config.sourceBase = sourceDir
 config.destBase = destDir
 
-export function main () {
-  log.i(config);
-
+function scanMedia () {
   store
       .ensureIndex()
       .then(indexName => {
@@ -29,4 +28,10 @@ export function main () {
 
         Walker.scan(config.sourceBase);
       })
+}
+
+export function main () {
+  log.i(config);
+
+  goodToGo().then(scanMedia)
 }

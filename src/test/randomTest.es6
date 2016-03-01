@@ -7,8 +7,11 @@ var logger = new Logger();
 
 //console.log(logger);
 
+import {execSync} from 'child_process'
 
-import {nextId, endClient, test} from '../lib/redis/uniqueId'
+try {
+  execSync('which foo')
+} catch (err) {
+  console.error('error executing foo', err.message)
+}
 
-logger.debug('===== ')
-nextId().then(endClient)

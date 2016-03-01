@@ -102,7 +102,27 @@ const index = (file, meta) => {
 
 }
 
+function isAlive () {
+  const url = `${esBase}/_cat/indices?v`
+  return new Promise((resolve, reject) => {
+    request
+        .get(url)
+        .end((err, res) => {
+          if (err) {
+            log.e('elastic search does not seem to be running', err)
+            reject(err)
+          } else {
+            resolve(res.body)
+          }
+        })
+  }).then(body => {
+    log.i('>> elastic search is up', body)
+    return {}
+  }).catch(checkError)
+}
+
 export default {
   ensureIndex: createIndexIfNotExist,
-  index
+  index,
+  isAlive
 }

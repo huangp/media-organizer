@@ -48,6 +48,7 @@ export function fileName (file) {
 
 
 export function onErrorCallback (err) {
+  // TODO log to a file. This is used by lsHandler and mediainfoHandler. Should just ignore it? abort the file move?
   if (err) {
     log.e('Error:', err)
     throw err
