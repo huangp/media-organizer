@@ -73,7 +73,8 @@ const toIndexDocPayload = (id, file, meta) => {
     sha1sum,
     size,
     createdDate,
-    exif
+    exif,
+    title: fileName(file)
   }
 }
 

@@ -105,7 +105,8 @@ oldData.hits.hits.forEach(hit => {
   }
   const fileType = isPhoto(file) ? 'photo' : 'video'
   const data = {
-    file, exif, createdDate, fileType, fileOrigin, sha1sum, size, tags: ''
+    file, exif, createdDate, fileType, fileOrigin, sha1sum, size, tags: '',
+    title: fileName(file)
   }
   writer.write(JSON.stringify(data) + "\n")
 })

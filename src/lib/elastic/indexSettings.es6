@@ -39,6 +39,14 @@ const commonProperties = {
   },
   "size": {
     "type": "long"
+  },
+  "title": {
+    "type": "string",
+    "analyzer": "smartcn"
+  },
+  "description": {
+    "type": "string",
+    "analyzer": "smartcn"
   }
 }
 
