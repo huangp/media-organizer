@@ -47,6 +47,17 @@ const commonProperties = {
   "description": {
     "type": "string",
     "analyzer": "smartcn"
+  },
+  "viewed": {
+    "type": "string",
+    "analyzer": "not_analyzed"
+  },
+  "rated": {
+    "type": "string",
+    "analyzer": "not_analyzed"
+  },
+  "rating": {
+    "type": "byte"
   }
 }
 

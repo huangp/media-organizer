@@ -49,7 +49,7 @@ function createIndexIfNotExist() {
   }).then(index => {
     if (index.index) {
       log.i('>>> index exists')
-      return undefined
+      return indexName
     }
     log.i('>>> creating index ' + indexName)
     return createIndex(indexName)

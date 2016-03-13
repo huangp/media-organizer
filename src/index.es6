@@ -33,5 +33,8 @@ function scanMedia () {
 export function main () {
   log.i(config);
 
-  goodToGo().then(scanMedia)
+  const p = goodToGo().then(scanMedia).catch((err) => {
+      log.e('something wrong', err)
+      process.exit(0)
+  })
 }

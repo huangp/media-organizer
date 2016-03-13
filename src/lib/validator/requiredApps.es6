@@ -10,8 +10,8 @@ function appOnPath (cmd) {
     execSync(`which ${cmd}`)
     return true
   } catch (err) {
-    log.e('error executing foo', err.message)
-    throw new Error(cmd + ' is not on PATH')
+    log.e('error finding ' + cmd, err.message)
+    throw new Error(`${cmd} is not on PATH`)
   }
 }
 
@@ -22,7 +22,9 @@ const mediainfoOnPath = () => {
 // redis server
 // mediainfo
 export function goodToGo () {
-  return esStore.isAlive().then(redisClient.isAlive).then(mediainfoOnPath)
+  return esStore.isAlive()
+      .then(redisClient.isAlive, () => log.e('elastic search is not alive'))
+      .then(mediainfoOnPath, () => log.e('redis is alive'))
 }
 
 
