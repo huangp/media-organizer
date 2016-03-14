@@ -60,15 +60,18 @@ const queryAndFilter = {
 
 //curl -XGET 'http://localhost:9200/media/_search?pretty' -d '
 const searchByMyViewed = {
-    "query": {
-        "bool": {
-            "must": [
-                {
-                    "match": {
-                        "viewed": "huangp@outlook.com"
-                    }
+    "query" : {
+        "filtered" : {
+            "query" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "term" : {
+                    // filtered field must have index set to not_analyze to make this work
+                    // https://www.elastic.co/guide/en/elasticsearch/guide/current/_finding_exact_values.html
+                    "viewed" : "patrick.zh.huang@gmail.com"
                 }
-            ]
+            }
         }
     }
 }
@@ -119,6 +122,47 @@ const sortResult = {
     }
 }
 
+const searchAllAndSortByCreatedDate = {
+    "_source": {
+        "include": ["file", "fileOrigin"],
+        "exclude": ["*.description"]
+    },
+    "from": 0, "size": 5, // search result pagination
+    "query": {
+        "match_all": {}
+    },
+    "sort": [
+        {"createdDate": {"order": "asc"}}
+    ]
+}
+
+/*
+// this needs to set index setting for tags to have a raw field:
+"tags": {
+    "type": "string",
+        "analyzer": "my_nGram",
+        "fields": {
+        "raw": {
+            "type": "string",
+                "index": "not_analyzed"
+        }
+    }
+}
+*/
+const searchByExactTagName = {
+    "query" : {
+        "filtered" : {
+            "query" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "term" : {
+                    "tags.raw" : "fun"
+                }
+            }
+        }
+    }
+}
 
 
 

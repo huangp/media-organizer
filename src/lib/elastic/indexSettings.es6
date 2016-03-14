@@ -35,7 +35,13 @@ const commonProperties = {
   },
   "tags": {
     "type": "string",
-    "analyzer": "my_nGram"
+    "analyzer": "my_nGram",
+    "fields": {
+      "raw": {
+        "type": "string",
+        "index": "not_analyzed"
+      }
+    }
   },
   "size": {
     "type": "long"
@@ -50,11 +56,11 @@ const commonProperties = {
   },
   "viewed": {
     "type": "string",
-    "analyzer": "not_analyzed"
+    "index": "not_analyzed"
   },
   "rated": {
     "type": "string",
-    "analyzer": "not_analyzed"
+    "index": "not_analyzed"
   },
   "rating": {
     "type": "byte"
