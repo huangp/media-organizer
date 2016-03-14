@@ -5,8 +5,6 @@ import {isPhoto, checkError, fileName} from '../util'
 
 import settings from './indexSettings'
 
-import {nextId} from '../redis/uniqueId'
-
 const esBase = 'http://localhost:9200'
 
 const indexName = config.indexName
@@ -62,11 +60,10 @@ const toFileType = (file) => {
   return isPhoto(file) ? 'photo' : 'video'
 }
 
-const toIndexDocPayload = (id, file, meta) => {
+const toIndexDocPayload = (file, meta) => {
   const {fileOrigin, sha1sum, size, createdDate, exif} = meta
   const fileType = toFileType(file)
   return {
-    id: Number.parseInt(id), // so that we can sort it
     file,
     fileOrigin,
     fileType,
@@ -80,27 +77,23 @@ const toIndexDocPayload = (id, file, meta) => {
 
 const index = (file, meta) => {
   const type = toFileType(file)
+  const payload = toIndexDocPayload(file, meta)
+  log.i('===== index payload =====', JSON.stringify(payload))
+  const url = `${esBase}/${indexName}/${type}`
 
-  return nextId().then(nextId => {
-    const url = `${esBase}/${indexName}/${type}/${nextId}`
-    const payload = toIndexDocPayload(nextId, file, meta)
-    log.i('===== index payload =====', JSON.stringify(payload))
-
-    return new Promise((resolve, reject) => {
-      request.put(url)
-          .send(payload)
-          .end((err, res) => {
-            if (err) {
-              // TODO log all error to a file
-              console.error(`Error indexing ${file}`, err)
-              reject(err)
-            } else {
-              resolve(res.body)
-            }
-          })
-    })
+  return new Promise((resolve, reject) => {
+    request.post(url)
+        .send(payload)
+        .end((err, res) => {
+          if (err) {
+            // TODO log all error to a file
+            console.error(`Error indexing ${file}`, err)
+            reject(err)
+          } else {
+            resolve(res.body)
+          }
+        })
   })
-
 }
 
 function isAlive () {

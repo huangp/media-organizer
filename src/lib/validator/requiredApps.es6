@@ -1,6 +1,5 @@
 // TODO validate required apps are installed and started
 import esStore from '../elastic/MetaStore'
-import redisClient from '../redis/index'
 import log from '../logger'
 import {execSync} from 'child_process'
 
@@ -23,7 +22,6 @@ const mediainfoOnPath = () => {
 // mediainfo
 export function goodToGo () {
   return esStore.isAlive()
-      .then(redisClient.isAlive, () => log.e('elastic search is not alive'))
       .then(mediainfoOnPath, () => log.e('redis is alive'))
 }
 
