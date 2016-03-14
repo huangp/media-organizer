@@ -13,6 +13,7 @@ import fileNameHandler from './fileNameHandler'
 import mediainfoHandler from './mediainfoHandler'
 
 import readExif from './exifHandler'
+import {curry} from 'ramda'
 
 const videoHandlers = [lsFullTimeHandler, fileNameHandler, mediainfoHandler];
 const photoHandlers = [readExif, fileNameHandler];
@@ -28,21 +29,30 @@ const handlerCallback = (totalHandlerCount, file, meta) => {
 }
 
 export default function handleFile(eventPayload) {
-  var file = eventPayload.file;
+  const file = eventPayload.file;
   // TODO use RXjs to chain sha1file, lsFullTime, mediainfo encoded time all together
-  var meta = meta || {};
+  let meta = meta || {};
   meta.fileOrigin = file;
   meta.sha1sum = shaFile(file);
   meta.handledCount = 0;
   log.d('>> for file:', file);
 
   if (isPhoto(file)) {
-    photoHandlers.forEach(function(handlerFn) {
-      handlerFn(file, meta, handlerCallback.bind(this, totalPhotoHandlers, file));
+    photoHandlers.forEach((handlerFn) => {
+      try {
+        handlerFn(file, meta, curry(handlerCallback)(totalPhotoHandlers, file))
+      } catch (err) {
+        log.e('err calling handler function', handlerFn, file, err)
+      }
+
     });
   } else {
-    videoHandlers.forEach(function(handlerFn) {
-      handlerFn(file, meta, handlerCallback.bind(this, totalVideoHandlers, file));
+    videoHandlers.forEach((handlerFn) => {
+      try {
+        handlerFn(file, meta, curry(handlerCallback)(totalVideoHandlers, file))
+      } catch (err) {
+        log.e('err calling handler function', handlerFn, file, err)
+      }
     });
   }
 
