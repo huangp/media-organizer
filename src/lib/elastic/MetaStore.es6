@@ -78,16 +78,25 @@ const toIndexDocPayload = (file, meta) => {
 const index = (file, meta) => {
   const type = toFileType(file)
   const payload = toIndexDocPayload(file, meta)
+  const {sha1sum} = meta
   log.i('===== index payload =====', JSON.stringify(payload))
-  const url = `${esBase}/${indexName}/${type}`
+  // we use file sha1sum as index id and op_type=create to force a put if absent behaviour
+  const url = `${esBase}/${indexName}/${type}/${sha1sum}?op_type=create`
 
   return new Promise((resolve, reject) => {
-    request.post(url)
+    request.put(url)
         .send(payload)
         .end((err, res) => {
           if (err) {
             // TODO log all error to a file
-            console.error(`Error indexing ${file}`, err)
+            const errRes = err.response.body
+            let rootCause
+            if (errRes.error) {
+              rootCause = errRes.error['root_cause']
+            } else {
+              rootCause = errRes
+            }
+            log.e(`Error indexing ${file}`, rootCause)
             reject(err)
           } else {
             resolve(res.body)

@@ -60,6 +60,5 @@ export default function onMetaDataForFile (eventPayload) {
   if (config.destBase) {
     moveFile(file, finalFile)
   }
-  // TODO should check if the file has already been indexed
   store.index(finalFile, meta);
 }
