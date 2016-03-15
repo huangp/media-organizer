@@ -19,7 +19,7 @@ const trimValue = (tags) => {
  * @param callback
  */
 export default function readExif(file, meta, callback) {
-  var readableStream = fs.createReadStream(file, {start: 0, end: 65635});
+  const readableStream = fs.createReadStream(file, {start: 0, end: 65635});
 
   readableStream.on('readable', () => {
     let chunk = readableStream.read(65535)

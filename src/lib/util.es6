@@ -17,7 +17,7 @@ export function ext(file) {
 }
 
 const videoExts = ['mp4', 'avi', 'mkv', 'mov']
-const photoExts = ['jpg', 'jpeg']
+const photoExts = ['jpg', 'jpeg', 'dng']
 
 export function isVideo (file) {
   return videoExts.indexOf(ext(file)) >= 0
@@ -25,6 +25,14 @@ export function isVideo (file) {
 
 export function isPhoto (file) {
   return photoExts.indexOf(ext(file)) >= 0
+}
+
+export function isRegularPhoto (file) {
+  return !isRawImage(file) && isPhoto(file)
+}
+
+export function isRawImage (file) {
+  return ext(file) === 'dng'
 }
 
 export function fullPath (srcDir, fileName) {

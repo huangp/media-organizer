@@ -22,7 +22,6 @@ const destination = (file, createdDate) => {
 
 const moveFile = (file, shouldMoveTo) => {
   return new Promise(function (resolve, reject) {
-    // TODO fs-extra.move seems to be able to create dirs as well
     fs.move(file, shouldMoveTo, {clobber: true}, (err) => {
       if (err) {
         log.e('something wrong with move file:' + file + '->' + shouldMoveTo)
@@ -61,5 +60,6 @@ export default function onMetaDataForFile (eventPayload) {
   if (config.destBase) {
     moveFile(file, finalFile)
   }
+  // TODO should check if the file has already been indexed
   store.index(finalFile, meta);
 }
