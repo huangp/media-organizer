@@ -2,6 +2,7 @@ import request from 'superagent'
 import log from './../logger'
 import {config} from '../constants'
 import {isPhoto, checkError, fileName} from '../util'
+import extName from 'ext-name'
 
 import settings from './indexSettings'
 
@@ -63,6 +64,8 @@ const toFileType = (file) => {
 const toIndexDocPayload = (file, meta) => {
   const {fileOrigin, sha1sum, size, createdDate, exif} = meta
   const fileType = toFileType(file)
+  const ext = extName(file)
+  const mime = ext ? ext.mime : null
   return {
     file,
     fileOrigin,
@@ -71,6 +74,7 @@ const toIndexDocPayload = (file, meta) => {
     size,
     createdDate,
     exif,
+    mime,
     title: fileName(file)
   }
 }

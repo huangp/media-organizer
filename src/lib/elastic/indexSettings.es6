@@ -33,6 +33,10 @@ const commonProperties = {
   "createdDate": {
     "type": "date"
   },
+  "mime": {
+    "type": "string",
+    "index": "not_analyzed"
+  },
   "tags": {
     "type": "string",
     "analyzer": "my_nGram",
