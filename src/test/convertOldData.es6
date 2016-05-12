@@ -89,7 +89,7 @@ const oldPhoto = {
     }
   }
 }
-const writer = fs.createWriteStream('/home/pahuang/work/new_data.json')
+const writer = fs.createWriteStream('/home/pahuang/work/new_data_bulk.json')
 oldData.hits.hits.forEach(hit => {
   const source = hit['_source']
   const {file, createdDate} = source
@@ -108,6 +108,9 @@ oldData.hits.hits.forEach(hit => {
     file, exif, createdDate, fileType, fileOrigin, sha1sum, size, tags: '',
     title: fileName(file)
   }
+  // action and meta data
+  writer.write(`{ "index" : { "_index" : "media", "_type" : "${fileType}", "_id" : "${sha1sum}" } }\n`)
+  // data source
   writer.write(JSON.stringify(data) + "\n")
 })
 writer.end()
