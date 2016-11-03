@@ -64,7 +64,7 @@ const toFileType = (file) => {
 const toIndexDocPayload = (file, meta) => {
   const {fileOrigin, sha1sum, size, createdDate, exif} = meta
   const fileType = toFileType(file)
-  const ext = extName(file)
+  const ext = extName(file.toLowerCase())
   const mime = ext ? ext.mime : null
   return {
     file,

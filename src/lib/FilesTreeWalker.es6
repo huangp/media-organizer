@@ -17,7 +17,7 @@ const Walker = Object.assign({}, EventEmitter.prototype, {
 
     file.walk(sourceDir, (err, dirname, dirs, files) => {
       if (err) {
-        log.e('somthing wrong walking the file tree', e)
+        log.e('somthing wrong walking the file tree', err)
         throw err
       }
       //console.log('>> entering %s', dirname);

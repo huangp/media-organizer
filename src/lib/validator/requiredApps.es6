@@ -22,7 +22,7 @@ const mediainfoOnPath = () => {
 // mediainfo
 export function goodToGo () {
   return esStore.isAlive()
-      .then(mediainfoOnPath, () => log.e('redis is alive'))
+      .then(mediainfoOnPath, () => log.e('mediainfo is not available'))
 }
 
 
