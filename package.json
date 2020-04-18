@@ -29,7 +29,7 @@
     "ramda": "^0.19.1",
     "sha1-file": "~1.0.0",
     "stream-splitter": "~0.3.2",
-    "superagent": "~1.7.2"
+    "superagent": "~5.2.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "~6.5.0",
