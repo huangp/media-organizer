@@ -16,7 +16,7 @@ import readExif from './exifHandler'
 import {curry} from 'ramda'
 
 const videoHandlers = [lsFullTimeHandler, fileNameHandler, mediainfoHandler];
-const photoHandlers = [readExif, fileNameHandler];
+const photoHandlers = [readExif, fileNameHandler, lsFullTimeHandler];
 
 const totalVideoHandlers = videoHandlers.length;
 const totalPhotoHandlers = photoHandlers.length;

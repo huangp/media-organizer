@@ -1,3 +1,9 @@
+example command
+
+```
+node index.js /mnt/common/bing_phone/video /storage/winshare/timeline/
+```
+
 IMG_20140528_161327.jpg
 
 VID_20150119_162919.mp4

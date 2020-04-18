@@ -64,7 +64,7 @@ const toFileType = (file) => {
 const toIndexDocPayload = (file, meta) => {
   const {fileOrigin, sha1sum, size, createdDate, exif} = meta
   const fileType = toFileType(file)
-  const ext = extName(file)
+  const ext = extName(file.toLowerCase())
   const mime = ext ? ext.mime : null
   return {
     file,
@@ -85,7 +85,7 @@ const index = (file, meta) => {
   const {sha1sum} = meta
   log.i('===== index payload =====', JSON.stringify(payload))
   // we use file sha1sum as index id and op_type=create to force a put if absent behaviour
-  const url = `${esBase}/${indexName}/${type}/${sha1sum}?op_type=create`
+  const url = `${esBase}/${indexName}/_doc/${sha1sum}?op_type=create`
 
   return new Promise((resolve, reject) => {
     request.put(url)
