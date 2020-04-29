@@ -23,7 +23,7 @@
     "file": "~0.2.2",
     "fs-extra": "~0.22.1",
     "graceful-logger": "~0.4.3",
-    "moment": "~2.10.3",
+    "moment": "~2.24.0",
     "moment-range": "~2.0.2",
     "moment-timezone": "~0.4.0",
     "ramda": "^0.19.1",
